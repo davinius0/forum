@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Forum</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+		header {
+			background-color: #333;
+			color: #fff;
+			padding: 20px;
+			text-align: center;
+		}
+		.container {
+			margin: 20px;
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			box-shadow: 0px 0px 10px #ddd;
+		}
+		.post {
+			margin: 20px 0px;
+			padding: 20px;
+			background-color: #f2f2f2;
+			border: 1px solid #ddd;
+			box-shadow: 0px 0px 5px #ddd;
+		}
+		.post h2 {
+			margin: 0px;
+			padding: 0px;
+			font-size: 24px;
+			color: #333;
+		}
+		.post p {
+			margin: 10px 0px;
+			padding: 0px;
+			font-size: 18px;
+			color: #333;
+		}
+		.comment {
+			margin: 20px 0px;
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			box-shadow: 0px 0px 5px #ddd;
+		}
+		.comment p {
+			margin: 10px 0px;
+			padding: 0px;
+			font-size: 16px;
+			color: #333;
+		}
+		.likes {
+			margin: 10px 0px;
+			padding: 0px;
+			font-size: 16px;
+			color: #333;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>My Forum</h1>
+	</header>
+	<div class="container">
+		<form>
+			<label for="post-title">Post Title:</label><br>
+			<input type="text" id="post-title" name="post-title"><br>
+			<label for="post-content">Post Content:</label><br>
+			<textarea id="post-content" name="post-content"></textarea><br>
+			<button type="button" onclick="submitPost()">Submit</button>
+		</form>
+		<div id="posts"></div>
+	</div>
+	<script>
+		// Code for submitting posts
+		function submitPost() {
+			var title = document.getElementById("post-title").value;
+			var content = document.getElementById("post-content").value;
+			var post = "<div class='post'><h2>" + title + "</h2><p>" + content + "</p><div class='likes'>0 likes</div><button type='button' onclick='likePost(this)'>Like</button><button type='button' onclick='showComments(this)'>Comments</button><div class='comments'></div><form><label for='comment-content'>Comment:</label><br><textarea id='comment-content' name='comment-content'></textarea><br><button type='button' onclick='submitComment(this)'>Submit</button></form></div>";
+			document.getElementById("posts").innerHTML += post;
+		}
+
+		// Code for liking posts
+		function likePost(button) {
+			var likesElement = button.parentElement.getElementsByClassName("likes")[0];
+			var likes = parseInt(likesElement.innerHTML);
+			likes++;
+			likesElement.innerHTML = likes + " likes";
+		}
+
+		// Code for showing comments
+		function showComments(button) {
+			var commentsElement = button.parentElement.getElementsByClassName("comments")[0];
+			var commentForm = button.parentElement.getElementsByTagName("form")[1];
+			if (commentsElement.innerHTML === "") {
+				commentForm.style.display = "block";
+			} else {
+				commentForm.style.display = "none";
+			}
+			commentsElement.innerHTML = "";
+			var comments = ["Comment 1", "Comment 2", "Comment 3"];
+			for (var i = 0; i < comments.length; i++) {
+				var comment = "<div class='comment'><p>" + comments[i] + "</p></div>";
+				commentsElement.innerHTML += comment;
+			}
+		}
+
+		// Code for submitting comments
+		function submitComment(button) {
+			var commentsElement = button.parentElement.parentElement.getElementsByClassName("comments")[0];
+			var content = button.parentElement.getElementsByTagName("textarea")[0].value;
+			var comment = "<div class='comment'><p>" + content + "</p></div>";
+			commentsElement.innerHTML += comment;
+			button.parentElement.getElementsByTagName("textarea")[0].value = "";
+		}
+	</script>
+</body>
+</html>
+
